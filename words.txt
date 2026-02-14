@@ -1,0 +1,29 @@
+Short A
+cat, bat, hat, sat, mat, rat, fat, pat, tap, cap, map, nap, lap, sap, gap, zap, bag, rag, tag, wag, fan, man, pan, ran, tan, van, ham, jam, ram, yam
+
+Short E
+bed, red, fed, led, wed, beg, leg, peg, hen, men, pen, ten, jet, let, met, net, pet, set, wet, vet
+
+Short I
+bib, rib, bid, did, hid, kid, lid, rid, big, dig, fig, jig, pig, rig, wig, bin, fin, pin, sin, tin, win, dip, hip, lip, nip, rip, sip, tip, zip, bit, fit, hit, kit, lit, pit, sit
+
+Short O
+cob, job, mob, rob, sob, dog, fog, hog, jog, log, hop, mop, pop, top, cot, dot, got, hot, lot, not, pot, rot
+
+Short U
+cub, rub, sub, tub, bud, mud, bug, dug, hug, jug, mug, pug, rug, tug, bum, gum, hum, mum, sum, bun, fun, gun, nun, pun, run, sun, cup, pup, cut, gut, hut, jut, nut, rut
+
+Long A
+cake, lake, make, rake, take, wake, bake, fake, gale, male, pale, sale, tale, came, dame, game, name, same, tame, cane, lane, mane, pane, cape, tape
+
+Long E
+bee, see, tree, free, knee, feel, heel, peel, reed, seed, weed, beet, feet, meet, reef, beef, jeep, keep, peep, seep, weep
+
+Long I
+bite, kite, site, dice, mice, nice, rice, vice, hide, ride, side, tide, wide, bike, hike, like, pike, lime, mime, time, dine, fine, line, mine, pine, vine, pipe, ripe, wipe, fire, hire, tire, wire
+
+Long O
+bone, cone, lone, tone, zone, hole, mole, pole, role, sole, home, dome, hope, mope, rope, cope, dote, note, vote, hose, nose, rose, woke, joke, poke, yoke
+
+Long U
+cube, tube, rude, June, tune, mule, rule, cute, mute, flute, brute, dune, fume, plume

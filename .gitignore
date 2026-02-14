@@ -1,0 +1,14 @@
+.gradle/
+build/
+local.properties
+.idea/
+*.iml
+.DS_Store
+/android/build/
+/core/build/
+/desktop/build/
+captures/
+.externalNativeBuild
+.cxx
+gradle-8.5-bin.zip
+gradle-8.5/
