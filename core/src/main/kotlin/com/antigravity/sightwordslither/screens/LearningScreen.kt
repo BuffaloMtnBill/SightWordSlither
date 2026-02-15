@@ -4,6 +4,7 @@ import com.antigravity.sightwordslither.SightWordSlither
 import com.antigravity.sightwordslither.model.LearningManager
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 
@@ -24,30 +25,67 @@ class LearningScreen(val game: SightWordSlither) : Screen {
         game.batch.projectionMatrix = camera.combined
 
         game.batch.begin()
-        game.font.draw(game.batch, "LEARNING MODE - Tap to Unlock Categories", 100f, 650f)
+        game.font.draw(game.batch, "LEARNING MODE - Tap to Unlock Tiers & Verbs", 100f, 680f)
         
-        for ((index, category) in learningManager.categories.withIndex()) {
-            val y = 550f - index * 60f
-            val status = if (learningManager.isCategoryUnlocked(category.name)) "[UNLOCKED] Animal: ${category.animalUnlock}" else "[LOCKED] (Tap to Learn)"
-            game.font.draw(game.batch, "${category.name}: $status", 100f, y)
+        var currentY = 620f
+        for (category in learningManager.categories) {
+            game.font.setColor(Color.CYAN)
+            game.font.draw(game.batch, "${category.name}:", 100f, currentY)
+            game.font.setColor(Color.WHITE)
+            currentY -= 30f
+            
+            // Tiers
+            for (tier in category.tiers.keys.sorted()) {
+                val status = if (learningManager.isTierUnlocked(category.name, tier)) "[UNLOCKED]" else "[LOCKED]"
+                game.font.draw(game.batch, "  Tier $tier: $status", 120f, currentY)
+                currentY -= 25f
+            }
+            
+            // Verbs
+            for (verb in category.verbs) {
+                val status = if (learningManager.isVerbUnlocked(category.name, verb)) "[UNLOCKED]" else "[LOCKED]"
+                game.font.draw(game.batch, "  Verb $verb: $status", 120f, currentY)
+                currentY -= 25f
+            }
+            
+            currentY -= 20f // Extra spacing between categories
+            if (currentY < 50f) break // Simple clip
         }
         
-        game.font.draw(game.batch, "Tap top to Return", 100f, 100f)
+        game.font.draw(game.batch, "Tap top-right to Return", 1000f, 680f)
         game.batch.end()
 
         if (Gdx.input.justTouched()) {
+             val touchX = Gdx.input.x.toFloat()
              val touchY = 720f - Gdx.input.y.toFloat()
              
-             // Simple unlock logic (click area)
-             for (i in learningManager.categories.indices) {
-                 val y = 550f - i * 60f
-                 if (touchY > y - 20 && touchY < y + 20) {
-                     val cat = learningManager.categories[i]
-                     learningManager.unlockCategory(cat.name)
+             // Unlock logic
+             var clickY = 620f
+             for (category in learningManager.categories) {
+                 clickY -= 30f // Skip category title
+                 
+                 // Check Tiers
+                 for (tier in category.tiers.keys.sorted()) {
+                     if (touchY > clickY - 12 && touchY < clickY + 12 && touchX < 500) {
+                         learningManager.unlockCategory(category.name)
+                         learningManager.unlockTier(category.name, tier)
+                     }
+                     clickY -= 25f
                  }
+                 
+                 // Check Verbs
+                 for (verb in category.verbs) {
+                     if (touchY > clickY - 12 && touchY < clickY + 12 && touchX < 500) {
+                         learningManager.unlockCategory(category.name)
+                         learningManager.unlockVerb(category.name, verb)
+                     }
+                     clickY -= 25f
+                 }
+                 
+                 clickY -= 20f
              }
 
-             if (touchY < 150) {
+             if (touchX > 900 && touchY > 600) {
                  game.screen = MainMenuScreen(game)
                  dispose()
              }

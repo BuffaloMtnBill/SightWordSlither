@@ -26,8 +26,8 @@ class MainMenuScreen(val game: SightWordSlither) : Screen {
         game.batch.begin()
         game.batch.draw(game.assetSystem.getBackground(), 0f, 0f, 1280f, 720f)
         game.font.setColor(Color.WHITE)
-        game.font.draw(game.batch, "Sight Word Slither: Baby Animal Rescue", 100f, 650f)
-        game.font.draw(game.batch, "Tap here for RESCUE MODE", 100f, 550f)
+        game.font.draw(game.batch, "Sight Word Search Squad", 100f, 650f)
+        game.font.draw(game.batch, "Tap here for ADVENTURE MODE", 100f, 550f)
         game.font.draw(game.batch, "Tap here for LEARNING MODE", 100f, 500f)
         
         // Display Rescue Status
@@ -43,15 +43,15 @@ class MainMenuScreen(val game: SightWordSlither) : Screen {
         
         game.batch.end()
 
-        if (Gdx.input.isTouched) {
-            touchPoint.set(Gdx.input.x.toFloat(), Gdx.input.y.toFloat(), 0f)
-            camera.unproject(touchPoint)
-
-            // Very basic hit detection for now
-            if (touchPoint.y > 325 && touchPoint.y < 375) {
-                game.screen = GameScreen(game)
+        if (Gdx.input.justTouched()) {
+            val touchY = 720f - Gdx.input.y.toFloat()
+            // Adventure Mode (approx y: 550)
+            if (touchY > 530 && touchY < 570) {
+                game.screen = AdventureScreen(game)
                 dispose()
-            } else if (touchPoint.y > 275 && touchPoint.y < 325) {
+            } 
+            // Learning Mode (approx y: 500)
+            else if (touchY > 480 && touchY < 520) {
                 game.screen = LearningScreen(game)
                 dispose()
             }

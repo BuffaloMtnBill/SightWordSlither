@@ -1,0 +1,81 @@
+Easiest Words
+Tier 1: I, me, he, she, do, be, you, it, we, at
+Verbs: walk
+
+Short A
+Tier 1: cat, bat, hat, sat, mat, rat, fat, pat, at, tap
+Tier 2: cap, map, nap, lap, sap, gap, zap, bag, rag, tag
+Tier 3: wag, fan, man, pan, ran, tan, van, ham, jam, ram
+Verbs: pat, zap, tap
+
+Short E
+Tier 1: bed, red, fed, led, wed, beg, leg, peg, hen, men
+Tier 2: pen, ten, jet, let, met, net, pet, set, wet, vet
+Tier 3: bell, fell, tell, well, sell, best, nest, rest, west, tent
+Verbs: pet, help, yell
+
+Short I
+Tier 1: bib, rib, bid, did, hid, kid, lid, rid, big, dig
+Tier 2: fig, jig, pig, rig, wig, bin, fin, pin, sin, tin
+Tier 3: win, dip, hip, lip, nip, rip, sip, tip, zip, bit
+Verbs: hit, zip, sit
+
+Short O
+Tier 1: cob, job, mob, rob, sob, dog, fog, hog, jog, log
+Tier 2: hop, mop, pop, top, cot, dot, got, hot, lot, not
+Tier 3: pot, rot, box, fox, ox, mom, pod, rod, sod, bog
+Verbs: hop, jog, pop
+
+Short U
+Tier 1: cub, rub, sub, tub, bud, mud, bug, dug, hug, jug
+Tier 2: mug, pug, rug, tug, bum, gum, hum, mum, sum, bun
+Tier 3: fun, gun, nun, pun, run, sun, cup, pup, cut, gut
+Verbs: rub, hug, run
+
+Long A
+Tier 1: cake, lake, make, rake, take, wake, bake, fake, gate, late
+Tier 2: came, game, name, same, tame, cane, lane, mane, pane, cape
+Tier 3: rain, wait, tail, main, sail, mail, pail, play, stay, day
+Verbs: bake, tame, wave
+
+Long E
+Tier 1: bee, see, tree, free, knee, feel, heel, peel, reed, seed
+Tier 2: weed, beet, feet, meet, reef, beef, jeep, keep, peep, seep
+Tier 3: weep, deep, sleep, green, queen, street, wheel, teeth, sheep, dream
+Verbs: feed, peek, keep
+
+Long I
+Tier 1: bite, kite, site, dice, mice, nice, rice, hide, ride, side
+Tier 2: tide, wide, bike, hike, like, pike, lime, mime, time, dine
+Tier 3: fine, line, mine, pine, vine, pipe, ripe, wipe, fire, light
+Verbs: hide, bite, ride
+
+Long O
+Tier 1: bone, cone, lone, tone, zone, hole, mole, pole, role, sole
+Tier 2: home, dome, hope, mope, rope, cope, dote, note, vote, hose
+Tier 3: nose, rose, woke, joke, poke, yoke, coat, boat, goat, road
+Verbs: poke, hope, vote
+
+Long U
+Tier 1: cube, tube, rude, June, tune, mule, rule, cute, mute, flute
+Tier 2: brute, dune, fume, plume, blue, true, glue, clue, sue, due
+Tier 3: use, huge, pure, cure, lure, duke, fluke, truth, fruit, suit
+Verbs: use, lure, mute
+
+Digraphs
+Tier 1: ship, shop, fish, dish, cash, chin, chip, rich, much, chop
+Tier 2: this, that, then, bath, path, moth, whip, when, whim, which
+Tier 3: back, neck, sick, rock, duck, check, shell, thing, whale, shack
+Verbs: wash, chop, rush
+
+Blends
+Tier 1: slap, flip, glad, blue, clap, frog, grab, trip, brim, crab
+Tier 2: stop, skin, spot, swim, step, fast, best, list, lost, hand
+Tier 3: bend, wind, pond, bank, sink, honk, junk, black, drink, smile
+Verbs: climb, jump, stomp
+
+Heart Words
+Tier 1: the, a, I, to, do, is, was, for, you, they
+Tier 2: said, of, your, are, from, some, come, what, where, who
+Tier 3: because, want, been, any, many, give, have, live, great, people
+Verbs: give, want, come

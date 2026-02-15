@@ -13,27 +13,81 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 
-class GameScreen(val game: SightWordSlither) : Screen {
+import com.antigravity.sightwordslither.model.WordCategory
+
+import com.antigravity.sightwordslither.systems.ObstacleManager
+import com.antigravity.sightwordslither.systems.Obstacle
+
+class GameScreen(val game: SightWordSlither, val targetCategory: WordCategory? = null) : Screen {
     val camera = OrthographicCamera()
     
     private val deck = Deck()
     private lateinit var cardRenderer: CardRenderer
     private val handY = 50f
     private val handSpacing = 160f
+    
+    // Obstacle Logic
+    private val obstacleManager = ObstacleManager()
+    private val obstacles = obstacleManager.generateLevelObstacles()
+    private var currentObstacleIndex = 0
+    private var levelComplete = false
+    
+    private var activeMiniGame: MiniGame? = null
+    private var paused = false
 
     init {
-        // Initialize simple deck for testing
-        deck.addCard(Card("1", "THE", CardType.SIGHT_WORD))
-        deck.addCard(Card("2", "AND", CardType.SIGHT_WORD))
-        deck.addCard(Card("3", "YOU", CardType.SIGHT_WORD))
-        deck.addCard(Card("4", "RESCUE", CardType.ACTION))
+        initializeDeck()
+    }
+    
+    private fun initializeDeck() {
+        val learningManager = game.learningManager
+        if (targetCategory != null) {
+             // Load unlocked sight words from this category
+             val words = learningManager.getUnlockedTierWords(targetCategory.name)
+             for (word in words) {
+                deck.addCard(Card("word_${word}", word, CardType.SIGHT_WORD))
+            }
+            
+            // Load unlocked verbs as action cards
+            val verbs = learningManager.getUnlockedVerbs(targetCategory.name)
+            for (verb in verbs) {
+                deck.addCard(Card("action_${verb}_1", verb, CardType.ACTION))
+                deck.addCard(Card("action_${verb}_2", verb, CardType.ACTION))
+            }
+        } else {
+             // Fallback: Load all unlocked from all categories
+            for (category in learningManager.categories) {
+                if (learningManager.isCategoryUnlocked(category.name)) {
+                    val words = learningManager.getUnlockedTierWords(category.name)
+                    for (word in words) {
+                        deck.addCard(Card("word_${word}", word, CardType.SIGHT_WORD))
+                    }
+                    val verbs = learningManager.getUnlockedVerbs(category.name)
+                    for (verb in verbs) {
+                        deck.addCard(Card("action_${verb}_1", verb, CardType.ACTION))
+                        deck.addCard(Card("action_${verb}_2", verb, CardType.ACTION))
+                    }
+                }
+            }
+        }
+        
+        // Ensure we always have some basic fallback if deck is too small
+        if (deck.getDrawPileSize() < 5) {
+            deck.addCard(Card("fallback_1", "I", CardType.SIGHT_WORD))
+            deck.addCard(Card("fallback_2", "YOU", CardType.SIGHT_WORD))
+            deck.addCard(Card("fallback_3", "THE", CardType.SIGHT_WORD))
+        }
+
         deck.shuffle()
         deck.draw(3)
     }
-
-
-    private var activeMiniGame: MiniGame? = null
-    private var paused = false
+    
+    private fun getCurrentObstacle(): Obstacle? {
+        if (currentObstacleIndex < obstacles.size) {
+            return obstacles[currentObstacleIndex]
+        }
+        return null
+    }
 
     override fun show() {
         camera.setToOrtho(false, 1280f, 720f)
@@ -58,13 +112,20 @@ class GameScreen(val game: SightWordSlither) : Screen {
             activeMiniGame!!.render(game.batch, delta)
             if (activeMiniGame!!.isCompleted()) {
                 if (activeMiniGame!!.getResult()) {
-                    game.font.draw(game.batch, "MINI GAME WON! ANIMAL SAVED!", 400f, 400f)
+                    game.font.draw(game.batch, "OBSTACLE CLEARED!", 500f, 400f)
+                    // Mark progress
+                    if (Gdx.input.justTouched()) {
+                        currentObstacleIndex++
+                        activeMiniGame = null
+                        if (currentObstacleIndex >= obstacles.size) {
+                            levelComplete = true
+                        }
+                    }
                 } else {
-                    game.font.draw(game.batch, "MINI GAME LOST!", 400f, 400f)
-                }
-                // Click to dismiss result
-                if (Gdx.input.justTouched()) {
-                    activeMiniGame = null
+                    game.font.draw(game.batch, "TRY AGAIN!", 550f, 400f)
+                    if (Gdx.input.justTouched()) {
+                        activeMiniGame = null
+                    }
                 }
             }
         } else {
@@ -108,6 +169,18 @@ class GameScreen(val game: SightWordSlither) : Screen {
     private fun renderGameLoop(delta: Float) {
         game.batch.draw(game.assetSystem.getBackground(), 0f, 0f, 1280f, 720f)
         
+        // Draw Obstacle Info
+        val obstacle = getCurrentObstacle()
+        if (obstacle != null) {
+            game.font.setColor(Color.RED)
+            game.font.draw(game.batch, "OBSTACLE: ${obstacle.name}", 100f, 680f)
+            game.font.setColor(Color.WHITE)
+            game.font.draw(game.batch, "${obstacle.description}", 100f, 640f)
+            game.font.draw(game.batch, "Required Action: ${obstacle.requiredAction}", 100f, 600f)
+        } else {
+             game.font.draw(game.batch, "ALL OBSTACLES CLEARED!", 100f, 650f)
+        }
+        
         // Draw Hand
         val hand = deck.getHand()
         for ((index, card) in hand.withIndex()) {
@@ -115,7 +188,8 @@ class GameScreen(val game: SightWordSlither) : Screen {
             cardRenderer.render(game.batch, card, x, handY)
         }
 
-        game.font.draw(game.batch, "RESCUE MODE - Deck: ${deck.getDrawPileSize()} Discard: ${deck.getDiscardPileSize()}", 100f, 600f)
+        game.font.draw(game.batch, "Progress: $currentObstacleIndex / 5", 900f, 680f)
+        game.font.draw(game.batch, "Deck: ${deck.getDrawPileSize()}", 900f, 640f)
     }
 
     private fun handleGameInput() {
@@ -134,13 +208,25 @@ class GameScreen(val game: SightWordSlither) : Screen {
                 val cardX = 100f + i * handSpacing
                 if (cardRenderer.getBounds(cardX, handY).contains(touchX, touchY)) {
                     val card = hand[i]
-                    println("Played card: ${card.text}")
                     deck.playCard(card)
                     
-                    // Trigger MiniGame on specific cards (or all for test)
-                    if (card.text == "RESCUE") {
-                        activeMiniGame = TapMiniGame(game.font)
-                        activeMiniGame!!.start()
+                    val obstacle = getCurrentObstacle()
+                    
+                    if (card.type == CardType.ACTION) {
+                        if (obstacle != null && card.text == obstacle.requiredAction) {
+                             // Correct Action! Trigger MiniGame
+                             println("Correct Action: ${card.text}")
+                             val category = targetCategory ?: game.learningManager.categories.firstOrNull() ?: com.antigravity.sightwordslither.model.WordCategory("Default", emptyMap(), emptyList(), "Cat")
+                             activeMiniGame = com.antigravity.sightwordslither.minigames.WordSetMiniGameFactory.createMiniGame(category, game.font)
+                             activeMiniGame!!.start()
+                        } else {
+                            // Wrong Action
+                            println("Wrong Action! Needed ${obstacle?.requiredAction}, played ${card.text}")
+                             // Ideally show feedback "Try Again!"
+                        }
+                    } else {
+                         // Sight Word - Just played for practice/cycling
+                         // Maybe add concentration logic later
                     }
                     
                     deck.draw(1) 

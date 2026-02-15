@@ -6,5 +6,5 @@ pluginManagement {
     }
 }
 
-rootProject.name = "SightWordSlither"
+rootProject.name = "SightWordSearchSquad"
 include(":core", ":desktop", ":android")
